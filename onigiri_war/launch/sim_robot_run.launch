@@ -10,8 +10,9 @@
 <!-- red side robot -->
   <group ns="red_bot">
       <!-- Your robot control node run -->
-      <include file="$(find onigiri_war)/launch/your_onigiri.launch" />
+      <!-- <include file="$(find onigiri_war)/launch/your_onigiri.launch" /> -->
   </group>
-
+  <include file="$(find onigiri_navigation)/launch/navigation.launch" />
+  <node pkg="wp_navigation" type="wp_navigation" name="wp_navigation" output="screen"/>
 </launch>
 
