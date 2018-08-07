@@ -15,7 +15,7 @@
 #include <move_base_msgs/MoveBaseAction.h>
 #include <tf/transform_broadcaster.h>
 
-#define GAIN_CHASE -0.01
+#define GAIN_CHASE 0.01
 #define PNT_START_CHASE 16
 
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
@@ -32,11 +32,15 @@ MyPose way_point[] = {
   {0.061, -0.007, -0.847},
   {0.696, -0.791, -0.926},
   // {0.736, -0.751, -0.926},
-  {2.012, -2.010, 0.928},
-  {2.780, -1.335, 0.939},
+  {2.050, -2, 0.928},
+  {2.352, -1.577, 0.922},
+  {2.644, -1.312, 0.796},
+
+  // {2.780, -1.335, 0.939},
   // {2.780, -1.235, 0.939},
   // {3.578, 0.0502, 2.647},
-  {4.024, 0, 3.104},
+  {4.054, 0, 3.14},
+  // {4.024, 0, 3.104},
   // {0.061, -0.007, -0.847},
   // {0.736, -0.751, 0.926},
   // {2.012, -2.010, 0.928},
@@ -135,25 +139,28 @@ class RoboCtrl {
     if (m_state == STATE_CHASE) {
       ros::Duration tick = ros::Time::now() - m_timechasestr;
       double tickdbl = tick.toSec();
-      if (tickdbl <= 8.0) {
-        m_frontspeed = 0.1;
-        m_turnspeed = m_diffPos * GAIN_CHASE;
-        ROS_INFO("CHASE PHASE(1) %f", tickdbl);
-      } else if (tickdbl <= 16.0) {
-        m_frontspeed = 0.0;
-        m_turnspeed = m_diffPos * GAIN_CHASE;
-        ROS_INFO("CHASE PHASE(2) %f", tickdbl);
-      } else if (tickdbl > 16.0)
-        m_frontspeed = 0.0;
-      m_turnspeed = -m_diffPos * GAIN_CHASE;
-      ROS_INFO("CHASE PHASE(3) %f", tickdbl);
+      m_frontspeed = 0.08;
+      m_turnspeed = m_diffPos * GAIN_CHASE;
+      ROS_INFO("CHASE PHASE(1) %f", tickdbl);
+    //   if (tickdbl <= 8.0) {
+    //     m_frontspeed = 0.1;
+    //     m_turnspeed = m_diffPos * GAIN_CHASE;
+    //     ROS_INFO("CHASE PHASE(1) %f", tickdbl);
+    //   } else if (tickdbl <= 16.0) {
+    //     m_frontspeed = 0.0;
+    //     m_turnspeed = m_diffPos * GAIN_CHASE;
+    //     ROS_INFO("CHASE PHASE(2) %f", tickdbl);
+    //   } else if (tickdbl > 16.0)
+    //     m_frontspeed = 0.0;
+    //   m_turnspeed = -m_diffPos * GAIN_CHASE;
+    //   ROS_INFO("CHASE PHASE(3) %f", tickdbl);
     }
 
     // ウェイポイント終わったらSTATE_IDLEにしてその場で回る
     if (m_state == STATE_IDLE) {
       m_frontspeed = 0.0;
-      m_turnspeed = 0.0;
-      // m_turnspeed = 0.5;
+      // m_turnspeed = 0.0;
+      m_turnspeed = 0.5;
     }
 
     ROS_INFO("NOW %d", m_state);
@@ -263,10 +270,7 @@ class RoboCtrl {
     int y = mu.m01 / mu.m00;
     ROS_INFO("AREA = %f", area);
 
-    if(m_state != STATE_IDLE){
-      return;
-    }
-    if (area > 1000) {
+    if (area > 100) {
       // if ((x >= 0) && (x <= 640) && (area > 20000) && (m_destPnt >= PNT_START_CHASE)) {
       // 敵が見つかったら追跡する
       m_diffPos = -(x - IMG_CENTER);
@@ -283,7 +287,9 @@ class RoboCtrl {
           break;
       }
       // STATE_CHASEに遷移
-      m_state = STATE_CHASE;
+      if(m_state == STATE_IDLE){
+        m_state = STATE_CHASE;
+      }
     } else {
       // 敵を見失う or そもそも敵を見つけていない場合
       m_diffPos = 0;
