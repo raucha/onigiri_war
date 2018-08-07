@@ -64,7 +64,7 @@ git clone https://github.com/OneNightROBOCON/onigiri_war
 - flask : HTTP server 審判サーバーで使用
 
 ```
-# pip のインストール 
+# pip のインストール
 sudo apt-get install python-pip
 #　requests flask のインストール
 sudo pip install requests flask
@@ -84,7 +84,7 @@ mkdir build
 cd build
 cmake ..
 make
-sudo make install 
+sudo make install
 ```
 
 ### 4. PC上でシミュレーションする場合
@@ -112,7 +112,7 @@ catkin_make
 
 arucoのmakeがうまく行かない場合、下記を試してみてください
 ```
-catkin_make --pkg ros_aruco -DARUCO_PATH=/usr/local  
+catkin_make --pkg ros_aruco -DARUCO_PATH=/usr/local
 ```
 インストールは以上です。
 
@@ -120,12 +120,12 @@ catkin_make --pkg ros_aruco -DARUCO_PATH=/usr/local  
 ### シミュレータ
 シミュレータ､ロボット(turtle_bot),審判サーバー､観戦画面のすべてを一発で起動する。大会で使用するスクリプト。
 ```
-bash scripts/sim_with_judge.sh
+cd ~/catkin_ws/src/onigiri_war; bash scripts/sim_with_judge.sh
 ```
 フィールドとロボットが立ち上がったら
 別のターミナルで下記ロボット動作スクリプトを実行
 ```
-bash scripts/start.sh
+cd ~/catkin_ws/src/onigiri_war; bash scripts/start.sh
 ```
 
 ![screenshot at 2018-01-09 23 52 12](https://user-images.githubusercontent.com/17049327/34726839-7ed4694e-f598-11e7-8e8e-2e0311b099d2.png)
@@ -136,12 +136,12 @@ bash scripts/start.sh
 
 審判サーバーを立ち上げずにシミュレータとロボットのみ立ち上げる場合
 ```
-roslaunch onigiri_war　onigiri_setup_sim.launch
+roslaunch onigiri_war onigiri_setup_sim.launch
 ```
 フィールドとロボットが立ち上がったら
 別のターミナルで下記ロボット動作スクリプトを実行
 ```
-bash scripts/start.sh
+cd ~/catkin_ws/src/onigiri_war; bash scripts/start.sh
 ```
 審判サーバー以外は上記と同じです。
 
@@ -174,39 +174,39 @@ roslaunch onigiri_war run_with_realsense.launch
 ## ファイル構成
 各ディレクトリの役割と、特に参加者に重要なファイルについての説明
 
-下記のようなディレクトリ構成になっています。  
+下記のようなディレクトリ構成になっています。
 
 ```
 onigiti_war
 ├── onigiri_war
-│   ├── CMakeLists.txt
-│   ├── launch  launchファイルの置き場
+│   ├── CMakeLists.txt
+│   ├── launch  launchファイルの置き場
 │   │   ├── sim_robot_run.launch  シミュレータ上で２台のロボットを動かすlaunchファイル
 │   │   └─ onigiri_setup_sim.launch  Gazeboシミュレータ上でフィールドの生成ロボットを起動、初期化するlaunchファイル
 │   │
-│   ├── models   GAZEBOシミュレーター用のモデルファイル
-│   ├── package.xml
-│   ├── scripts    pythonで書かれたROSノード
-│   └── world     シミュレータGAZEBO用の環境ファイル
-│       ├── field_v0.world  昔のヤツ
-│       ├── gen.sh          onigiri_field.world.emから onigiri_field.worldを作成するスクリプト
-│       ├── onigiri_field.world  最新のworldファイル
-│       └── onigiri_field.world.em  worldファイルのマクロ表記版､こっちを編集する
+│   ├── models   GAZEBOシミュレーター用のモデルファイル
+│   ├── package.xml
+│   ├── scripts    pythonで書かれたROSノード
+│   └── world     シミュレータGAZEBO用の環境ファイル
+│       ├── field_v0.world  昔のヤツ
+│       ├── gen.sh          onigiri_field.world.emから onigiri_field.worldを作成するスクリプト
+│       ├── onigiri_field.world  最新のworldファイル
+│       └── onigiri_field.world.em  worldファイルのマクロ表記版､こっちを編集する
 |
-├── onigiri_war_judge   審判サーバー
+├── onigiri_war_judge   審判サーバー
 │   ├── judgeServer.py  審判サーバー本体
 │   ├── log   ログがここにたまる
 │   ├── marker_set  マーカーの配置設定ファイル置き場
 │   ├── picture  観戦画面用画像素材
-│   ├── README.md  
-│   ├── test_scripts   初期化などのスクリプト
+│   ├── README.md
+│   ├── test_scripts   初期化などのスクリプト
 │   └── visualizeWindow.py  観戦画面表示プログラム
 |
-├── README.md   これ
+├── README.md   これ
 ├── ros_aruco  ARマーカーの読み取りパッケージ
 ├── rulebook.md  ルールブック(過去版 2017/03の第３回大会のもの)
 └── scripts      一発起動スクリプト
-    ├─── sim_with_judge.sh   シミュレーターとロボットと審判サーバーの立ち上げ初期化をすべて行う    
+    ├─── sim_with_judge.sh   シミュレーターとロボットと審判サーバーの立ち上げ初期化をすべて行う
     └──  start.sh             赤サイド、青サイドのロボットを動作させるノードを立ち上げるスクリプト
 ```
 ↑ディレクトリと特に重要なファイルのみ説明しています。
@@ -229,9 +229,9 @@ exposure_auto=1で露光の調整をマニュアルに変更し、exposure_absol
 ~/realsense/realsense_camera/launch/includes/nodelet_rgbd_launch.xmlを開き、以下の該当箇所を探す。
 ```
 <node pkg="nodelet" type="nodelet" name="driver"
-        args="load realsense_camera/$(arg camera_type)Nodelet $(arg manager)">
+        args="load realsense_camera/$(arg camera_type)Nodelet $(arg manager)">
 ```
-        
+
 この直下に以下の内容を記載。
 ```
 <param name="color_enable_auto_exposure" value="0"/>
@@ -242,6 +242,6 @@ exposure_auto=1で露光の調整をマニュアルに変更し、exposure_absol
 
 
 ## 推奨動作環境
-- Ubuntu 16.04 
+- Ubuntu 16.04
 - Ros kinetic
 2018年からkineticで開発しています｡
