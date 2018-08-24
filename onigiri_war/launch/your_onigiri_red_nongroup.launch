@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+  <group ns="red_bot">
+      <!-- <node pkg="onigiri_navigation" type="myrandom.py" name="$(anon random)" output="screen"/> -->
+  </group>
+  <include file="$(find onigiri_navigation)/launch/navigation.launch" />
+  <node pkg="wp_navigation" type="wp_navigation" name="$(anon wp_navigation)" output="screen"/>
+</launch>
+
