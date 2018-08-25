@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-  <group ns="blue_bot">
-      <node pkg="onigiri_navigation" type="myrandom.py" name="$(anon random)" output="screen"/>
-  </group>
-</launch>
-
