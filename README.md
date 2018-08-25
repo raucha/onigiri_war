@@ -1,3 +1,7 @@
+# 2018　One Month ROBOCON予選用プログラム
+チーム名: 重兼 聡夫
+すみません、コミット失敗して１０時に間に合っていないのです・・・容赦ください。
+
 # onigiri_war
 OneNightROBOCON競技「onigiri war」プロジェクト
 
