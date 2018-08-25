@@ -11,7 +11,7 @@
 
   <!-- Map server -->
   <arg name="map_file" default="$(find onigiri_navigation)/maps/map.yaml"/>
-  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)">
+  <node name="$(anon map_server)" pkg="map_server" type="map_server" args="$(arg map_file)">
   </node>
 
   <!-- AMCL -->
@@ -34,10 +34,10 @@
     <remap from="odom" to="$(arg odom_topic)"/>
   </node>
   <!-- LRFのスキャンマッチングでオドメトリ値を出すための処理 -->
-  <node pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 3.1415 0 0 red_bot/base_link_scanmatch /red_bot/laser2" name="tf_scanmatch"/>
-  <node pkg="onigiri_navigation" type="copy_scan.py" name="copy_scan"/>
+  <node pkg="tf2_ros" type="static_transform_publisher" args="0 0 0 3.1415 0 0 red_bot/base_link_scanmatch /red_bot/laser2" name="$(anon tf_scanmatch)"/>
+  <node pkg="onigiri_navigation" type="copy_scan.py" name="$(anon copy_scan)"/>
   <!-- <node pkg="onigiri_navigation" type="copy_scan.py" name="copy_scan.py"/> -->
-  <node pkg="laser_scan_matcher" type="laser_scan_matcher_node" name="laser_scan_matcher_node" output="screen">
+  <node pkg="laser_scan_matcher" type="laser_scan_matcher_node" name="$(anon laser_scan_matcher_node)" output="screen">
     <remap from="scan" to="/red_bot/scan2"/>
     <!-- <remap from="scan" to="/red_bot/scan"/> -->
     <param name="use_imu" value="false"/>
